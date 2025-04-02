@@ -1,89 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
     <title>serenity's home</title>
-</head>
-<body>
+  </head>
+  <body>
     <div id="cover" class="cover">
-        <video class="backdrop lower" src="media/snow.mp4" nocontrols autoplay muted loop></video>
-        <div class="header">
-            <span>hi, i'm</span>&nbsp;&nbsp;
-            <div class="me">
-                <span class="glowies header">serenity</span>
-            </div>
+      <video
+        class="backdrop lower"
+        src="media/snow.mp4"
+        nocontrols
+        autoplay
+        muted
+        loop
+      ></video>
+      <div class="header">
+        <span>hi, i'm</span>&nbsp;&nbsp;
+        <div class="me">
+          <span class="glowies header">serenity</span>
         </div>
-        <div class="nav">
-            <button id="reveal">enter</button>
-        </div>
+      </div>
+      <div class="nav">
+        <button id="reveal">enter</button>
+      </div>
     </div>
-    
+
     <div class="content">
-        <audio id="radio" src=""></audio>
-        <video id="backdrop" class="backdrop" nocontrols loop></video>
-        <video id="backdropglow" class="backdrop glow" nocontrols loop></video>
-        <div class="holder" japanese="true">
-            <span class="nofloat glowies header">ベッドでの平穏の祈り</span>
-        </div>
-        
-        <div class="container">
+      <audio id="radio" src=""></audio>
+      <video id="backdrop" class="backdrop" nocontrols loop></video>
+      <video id="backdropglow" class="backdrop glow" nocontrols loop></video>
+      <div class="holder" japanese="true">
+        <span class="nofloat glowies header">ベッドでの平穏の祈り</span>
+      </div>
+
+      <div class="container">
         <div class="left-column">
-            <div class="card">
-                <div class="profile">
-                    <img src="media/serenity.jpg" alt="serenity" class="pfp">
-                    <div class="profile-text">
-                        <h2>serenity <span><img color="fff" src="media/diamond.png" width="24px" style="margin-bottom: -6px;"/></span></h2>
-                        <ul>
-                            <li>I like coding and making things</li>
-                            <li>I love cozy aesthetics</li>
-                            <li>interested in reverse engineering</li>
-                            <li>always listening to music</li>
-                        </ul>
-                    </div>
-                </div>
+          <div class="card">
+            <div class="profile">
+              <img src="media/images/serenity.jpg" alt="serenity" class="pfp" />
+              <div class="profile-text">
+                <h2>
+                  serenity
+                  <span
+                    ><img
+                      color="fff"
+                      src="media/images/diamond.png"
+                      width="24px"
+                      style="margin-bottom: -6px"
+                  /></span>
+                </h2>
+                <ul>
+                  <li>I like coding and making things</li>
+                  <li>I love cozy aesthetics</li>
+                  <li>interested in reverse engineering</li>
+                  <li>always listening to music</li>
+                </ul>
+              </div>
             </div>
+          </div>
 
-            <div class="card">
-                <h2>blog</h2>
-                <div class="blog-links">
-                    <span>none yet... :(</span>
-                </div>
+          <div class="card">
+            <h2>blog</h2>
+            <div class="blog-links">
+              <span>none yet... :(</span>
             </div>
+          </div>
 
-            <div class="card">
-                <h2>projects</h2>
-                <span>none yet... :(</span>
-            </div>
+          <div class="card">
+            <h2>projects</h2>
+            <span>none yet... :(</span>
+          </div>
 
-            <div class="card small-card">
-                <button id="kittybutton" class="kittybutton">:3</button>
+          <div class="card">
+            <div class="container2">
+              <h2>you are listening to</h2>
+              <button id="mute">
+                <img
+                  color="bfbfbf"
+                  src="media/images/audible.png"
+                  width="24px"
+                  height="24px"
+                />
+              </button>
             </div>
+            <p id="radiotitle">song name - song artist</p>
+            <div class="container2">
+              <p class="radiotime" id="currenttime">0:00</p>
+              <div id="radioprogress">
+                <div id="radiobar"></div>
+              </div>
+              <p class="radiotime" id="duration">0:00</p>
+            </div>
+          </div>
+
+          <div class="card small-card">
+            <button id="kittybutton" class="kittybutton">:3</button>
+          </div>
         </div>
 
         <div class="right-column">
-            <div class="card">
-                <h2>links</h2>
-                <div class="links">
-                    <a href="https://github.com/oxorany">github</a>
-                    <a href="https://x.com/oxorany">twitter</a>
-                    <a href="https://discord.com/users/811756988907651074">discord</a>
-                </div>
+          <div class="card">
+            <h2>links</h2>
+            <div class="links">
+              <a href="https://github.com/oxorany">github</a>
+              <a href="https://x.com/oxorany">twitter</a>
+              <a href="https://discord.com/users/811756988907651074">discord</a>
             </div>
-
-            <div class="card">
-                <h2>listening to</h2>
-                <p>song name - song artist</p>
-                <p style="color: #666; font-size: 12px; margin-top: 8px;">playing now</p>
-            </div>
+          </div>
         </div>
+      </div>
     </div>
-
-    <div class="radiocard">
-      <span></span>
-    </div>
-    
     <script src="script.js"></script>
-</body>
+  </body>
 </html>

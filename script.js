@@ -3,9 +3,44 @@ console.log("hi");
 const themes = {
   normal: {
     playlist: [
-      "ava.wipe-my-tears.mp3",
-      "ava.while-the-skys-fallin-down.mp3",
-      "kiyosumi.thinking-of-you.mp3",
+      { artist: "18hzr", name: "apathy", id: "18hzr.apathy.mp3" },
+      { artist: "18hzr", name: "AVTM", id: "18hzr.AVTM.mp3" },
+      {
+        artist: "18hzr",
+        name: "mental disorder",
+        id: "18hzr.mental-disorder.mp3",
+      },
+      {
+        artist: "18hzr",
+        name: "split personality",
+        id: "18hzr.split-personality.mp3",
+      },
+      {
+        artist: "ava",
+        name: "while the skys fallin down",
+        id: "ava.while-the-skys-fallin-down.mp3",
+      },
+      { artist: "ava", name: "wipe my tears", id: "ava.wipe-my-tears.mp3" },
+      {
+        artist: "cast heal",
+        name: "traumacide",
+        id: "cast-heal.traumacide.mp3",
+      },
+      { artist: "FRAXRIEL", name: "LIKE I DO", id: "FRAXRIEL.LIKE-I-DO.mp3" },
+      { artist: "ilymeow", name: "heal!!", id: "ilymeow.heal!!.mp3" },
+      { artist: "IVOXYGEN", name: "casino143", id: "IVOXYGEN.casino143.mp3" },
+      { artist: "kiyosumi", name: "repeat", id: "kiyosumi.repeat.mp3" },
+      {
+        artist: "kiyosumi",
+        name: "thinking of you",
+        id: "kiyosumi.thinking-of-you.mp3",
+      },
+      {
+        artist: "nunashi",
+        name: "wake in loneliness",
+        id: "nunashi.wake-in-loneliness.mp3",
+      },
+      { artist: "xNasuni", name: "bright", id: "xNasuni.bright.mp3" },
     ],
     bgv: "backdrop3.mp4",
   },
@@ -63,43 +98,107 @@ for (const glowy of document.querySelectorAll(".glowies")) {
   split(glowy);
 }
 
+const keys = {};
+const timeouts = {};
+
 for (const individual of document.querySelectorAll(".individual")) {
   if (individual.parentNode.getAttribute("japanese")) {
     const chidx = Array.from(individual.parentNode.children).indexOf(
       individual
     );
-    individual.addEventListener("mouseenter", () => {
+    function handler() {
       playDingPitch(chidx);
+
+      if (timeouts[chidx]) {
+        clearTimeout(timeouts[chidx]);
+      }
+
+      individual.classList.remove("shake");
+      void individual.offsetWidth;
+
       individual.classList.add("shake");
-      setTimeout(() => {
+
+      timeouts[chidx] = setTimeout(() => {
         individual.classList.remove("shake");
-      }, 1000);
-    });
+      }, 500);
+    }
+    keys[chidx] = handler;
+    individual.addEventListener("mouseenter", handler);
   }
 }
+
+const keyMap = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"];
 
 const reveal = document.getElementById("reveal");
 const cover = document.getElementById("cover");
 
+document.addEventListener("keydown", (e) => {
+  const idx = keyMap.indexOf(e.key.toLowerCase());
+  if (
+    idx !== -1 &&
+    keys[idx] &&
+    !e.repeat &&
+    (!document.body.contains(cover) || cover.classList.contains("reveal"))
+  ) {
+    keys[idx]();
+  }
+});
+
 const radio = document.getElementById("radio");
 const backdrop = document.getElementById("backdrop");
 const backdropglow = document.getElementById("backdropglow");
+const radiotitle = document.getElementById("radiotitle");
+const radiobar = document.getElementById("radiobar");
+const currenttime = document.getElementById("currenttime");
+const duration = document.getElementById("duration");
+const mute = document.getElementById("mute");
 
 const kittybutton = document.getElementById("kittybutton");
 
 backdrop.src = `media/${theme.bgv}`;
 backdropglow.src = `media/${theme.bgv}`;
 
+var radiomuted = localStorage.getItem("radiomute") == "true";
+function updateRadioWidget() {
+  radio.volume = radiomuted ? 0 : 1;
+  mute.children[0].src = radiomuted
+    ? "media/images/muted.png"
+    : "media/images/audible.png";
+}
+updateRadioWidget();
+
+function format(seconds) {
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return mins + ":" + (secs < 10 ? "0" : "") + secs;
+}
+
+mute.onclick = () => {
+  radiomuted = !radiomuted;
+  localStorage.setItem("radiomute", radiomuted);
+  updateRadioWidget();
+};
+
 reveal.onclick = () => {
   cover.classList.add("reveal");
   backdrop.play();
   backdropglow.play();
 
+  var radiointerval = -1;
   function radiotick() {
     const music =
       theme.playlist[Math.floor(Math.random() * theme.playlist.length)];
-    radio.src = `media/${music}`;
+    radio.src = `media/radio/${music.id}`;
     radio.play();
+    radiotitle.textContent = `${music.artist} - ${music.name}`;
+    clearInterval(radiointerval);
+    radiointerval = setInterval(() => {
+      const ratio = radio.currentTime / radio.duration;
+      radiobar.style.width = `${ratio * 100.0}%`;
+
+      currenttime.textContent = format(radio.currentTime);
+      duration.textContent = format(radio.duration);
+    }, 1000);
   }
   radiotick();
   radio.addEventListener("ended", radiotick);
