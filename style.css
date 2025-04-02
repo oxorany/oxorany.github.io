@@ -38,7 +38,7 @@ body {
 
 .content {
   position: static;
-  background: #070707aa;
+  background: transparent;
   display: flex;
   margin: 0;
   height: 100vh;
@@ -185,6 +185,11 @@ button {
   opacity: 0.5;
 }
 
+#backdropglow {
+  z-index: 2;
+  opacity: 0.9;
+}
+
 .backdrop {
   opacity: 1;
 }
@@ -265,8 +270,8 @@ body {
 }
 
 .card {
-  background: rgba(0, 0, 0, 0.05);
-  backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.1);
+  /* backdrop-filter: blur(6px); */
   border: 1px solid #00000033;
   padding: 20px;
   border-radius: 4px;
@@ -365,7 +370,7 @@ h2 {
 
 .links a::before {
   content: "✦ ";
-  color: #999;
+  color: #ccc;
 }
 
 .links a:hover {
@@ -400,11 +405,15 @@ h2 {
   border-radius: 4px;
 }
 
-.kittybutton:hover {
+.kittybutton.disabled {
+  pointer-events: none;
+}
+
+.kittybutton:not(.disabled):hover {
   background: #ffffff11;
 }
 
-.kittybutton:active {
+.kittybutton:not(.disabled):active {
   background: #ffffff33;
 }
 

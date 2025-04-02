@@ -47,6 +47,31 @@ const themes = {
 };
 const theme = themes["normal"];
 
+const preload = {};
+
+async function preloadAssets() {
+  const explosionResponse = await fetch("media/explosion.mp3");
+  const explosionBuffer = await explosionResponse.arrayBuffer();
+  preload.explosion = await ctx.decodeAudioData(explosionBuffer);
+
+  const meowResponse = await fetch("media/meow.mp3");
+  const meowBuffer = await meowResponse.arrayBuffer();
+  preload.meow = await ctx.decodeAudioData(meowBuffer);
+
+  const pngs = [
+    "media/images/diamond.png",
+    "media/images/muted.png",
+    "media/images/audible.png",
+  ];
+  for (const src of pngs) {
+    const img = new Image();
+    img.src = src;
+    preload[src] = img;
+  }
+}
+
+preloadAssets();
+
 const header = document.getElementById("header");
 
 function split(element) {
@@ -88,7 +113,7 @@ async function playDingPitch(chidx) {
   const source = ctx.createBufferSource();
   source.buffer = audioBuffer;
 
-  source.detune.value = chidx * 100;
+  source.detune.value = (chidx - 5) * 200;
 
   source.connect(ctx.destination);
   source.start();
@@ -207,6 +232,44 @@ reveal.onclick = () => {
     cover.remove();
   }, 1000);
 };
+var kittycount = 0;
+var kittytime = Date.now();
+var kittytimeout = null;
+var kittypitch = 0;
 
-kittybutton.onclick = () => {};
-// I'll do this tomorrow :)
+kittybutton.onclick = async () => {
+  if (kittybutton.disabled) {
+    return;
+  }
+
+  if (kittytimeout) clearTimeout(kittytimeout);
+
+  kittycount++;
+  kittypitch = Math.min(kittycount * 50, 1200);
+
+  if (kittycount > 20) {
+    const meow = new Audio("media/explosion.mp3");
+    meow.play();
+    kittybutton.disabled = true;
+    kittybutton.classList.add("disabled");
+    kittycount = 0;
+    kittypitch = 0;
+  } else {
+    const response = await fetch("media/meow.mp3");
+    const arrayBuffer = await response.arrayBuffer();
+    const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
+    const source = ctx.createBufferSource();
+    source.buffer = audioBuffer;
+
+    source.detune.value = kittypitch;
+
+    source.connect(ctx.destination);
+    source.start();
+  }
+
+  kittytimeout = setTimeout(() => {
+    kittycount = 0;
+    kittytime = Date.now();
+    kittypitch = 0;
+  }, 2000);
+};
