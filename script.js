@@ -44,8 +44,18 @@ const themes = {
     ],
     bgv: "backdrop3.mp4",
   },
+  halloween: {
+    playlist: [
+      {
+        artist: "Thaehan",
+        name: "Deadly Lullaby",
+        id: "Thaehan.Deadly-Lullaby.mp3",
+      },
+    ],
+    bgv: "graveyard.mp4",
+  },
 };
-const theme = themes["normal"];
+const theme = themes["halloween"];
 
 const preload = {};
 
