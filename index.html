@@ -24,18 +24,19 @@
       </div>
       <div class="nav">
         <button id="reveal">enter</button>
+        <span>&nbsp;(epilepsy warning)</span>
       </div>
     </div>
-
     <div class="content">
       <audio id="radio"></audio>
-      <img
-        class="backdrop"
-        style="z-index: 2; pointer-events: none; filter: invert(1) opacity(0.4)"
-        src="media/cobwebs.png"
-      />
       <video id="backdrop" class="backdrop" nocontrols loop></video>
-      <video id="backdropglow" class="backdrop glow" nocontrols loop></video>
+      <video
+        id="backdropglow"
+        class="backdrop glow"
+        nocontrols
+        muted
+        loop
+      ></video>
       <div class="holder" japanese="true">
         <span class="nofloat glowies header">ベッドでの平穏の祈り</span>
       </div>
@@ -44,7 +45,26 @@
         <div class="left-column">
           <div class="card">
             <div class="profile">
-              <img src="media/images/serenity.jpg" alt="serenity" class="pfp" />
+              <div class="profile-text">
+                <img
+                  src="media/images/serenity.jpg"
+                  alt="serenity"
+                  class="pfp"
+                />
+                <p>
+                  <span class="tooltip" data-tooltip="cold">❄</span>
+                  <span class="tooltip" data-tooltip="night">☾</span>
+                  <span class="tooltip" data-tooltip="lover">♥</span>
+                  <span class="tooltip" data-tooltip="healer">⚕</span>
+                </p>
+                <p>
+                  <span class="tooltip" data-tooltip="girl">♀</span>
+                  <span class="tooltip" data-tooltip="trans">⚧</span>
+                  <span class="tooltip" data-tooltip="lucky">☘</span>
+                  <span class="tooltip" data-tooltip="saint">♱</span>
+                </p>
+                <p>&nbsp;she/her</p>
+              </div>
               <div class="profile-text">
                 <h2>
                   serenity
@@ -58,9 +78,9 @@
                 </h2>
                 <ul>
                   <li>I like coding and making things</li>
+                  <li>I like reverse engineering</li>
                   <li>I love cozy aesthetics</li>
-                  <li>interested in reverse engineering</li>
-                  <li>always listening to music</li>
+                  <li>I'm always listening to music</li>
                 </ul>
               </div>
             </div>

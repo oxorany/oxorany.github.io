@@ -54,8 +54,18 @@ const themes = {
     ],
     bgv: "graveyard.mp4",
   },
+  xd: {
+    playlist: [
+      // {
+      //   artist: "Cult Member",
+      //   name: "U Weren't Here I Really Miss You",
+      //   id: "Cult-Member.U-Weren't-Here-I-Really-Miss-You.mp3",
+      // },
+    ],
+    bgv: "blue.mp4",
+  },
 };
-const theme = themes["halloween"];
+const theme = themes["xd"];
 
 const preload = {};
 
@@ -123,7 +133,7 @@ async function playDingPitch(chidx) {
   const source = ctx.createBufferSource();
   source.buffer = audioBuffer;
 
-  source.detune.value = (chidx - 5) * 200;
+  source.detune.value = (chidx - 1) * 100;
 
   source.connect(ctx.destination);
   source.start();
@@ -196,6 +206,7 @@ backdropglow.src = `media/${theme.bgv}`;
 var radiomuted = localStorage.getItem("radiomute") == "true";
 function updateRadioWidget() {
   radio.volume = radiomuted ? 0 : 1;
+  backdrop.volume = radiomuted ? 0 : 1;
   mute.children[0].src = radiomuted
     ? "media/images/muted.png"
     : "media/images/audible.png";
@@ -219,24 +230,32 @@ reveal.onclick = () => {
   backdrop.play();
   backdropglow.play();
 
-  var radiointerval = -1;
-  function radiotick() {
-    const music =
-      theme.playlist[Math.floor(Math.random() * theme.playlist.length)];
-    radio.src = `media/radio/${music.id}`;
-    radio.play();
-    radiotitle.textContent = `${music.artist} - ${music.name}`;
-    clearInterval(radiointerval);
-    radiointerval = setInterval(() => {
-      const ratio = radio.currentTime / radio.duration;
-      radiobar.style.width = `${ratio * 100.0}%`;
+  radiotitle.textContent = `Cult Member - U Weren't Here I Really Miss You`;
+  setInterval(() => {
+    const ratio = backdrop.currentTime / backdrop.duration;
+    radiobar.style.width = `${ratio * 100.0}%`;
 
-      currenttime.textContent = format(radio.currentTime);
-      duration.textContent = format(radio.duration);
-    }, 1000);
-  }
-  radiotick();
-  radio.addEventListener("ended", radiotick);
+    currenttime.textContent = format(backdrop.currentTime);
+    duration.textContent = format(backdrop.duration);
+  }, 1000);
+  // var radiointerval = -1;
+  // function radiotick() {
+  //   const music =
+  //     theme.playlist[Math.floor(Math.random() * theme.playlist.length)];
+  //   radio.src = `media/radio/${music.id}`;
+  //   radio.play();
+  //   radiotitle.textContent = `${music.artist} - ${music.name}`;
+  //   clearInterval(radiointerval);
+  //   radiointerval = setInterval(() => {
+  //     const ratio = radio.currentTime / radio.duration;
+  //     radiobar.style.width = `${ratio * 100.0}%`;
+
+  //     currenttime.textContent = format(radio.currentTime);
+  //     duration.textContent = format(radio.duration);
+  //   }, 1000);
+  // }
+  // radiotick();
+  // radio.addEventListener("ended", radiotick);
 
   setTimeout(() => {
     cover.remove();
@@ -283,3 +302,52 @@ kittybutton.onclick = async () => {
     kittypitch = 0;
   }, 2000);
 };
+
+const cards = document.querySelectorAll(".container");
+
+document.addEventListener("mousemove", (e) => {
+  for (const card of cards) {
+    for (const subcard of card.querySelectorAll(".card")) {
+      const rect = subcard.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      subcard.style.setProperty("--mouse-x", `${x}px`);
+      subcard.style.setProperty("--mouse-y", `${y}px`);
+    }
+  }
+});
+
+cards.forEach((card) => {
+  card.addEventListener("mousemove", (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+    const rx = ((y - cy) / cy) * -10;
+    const ry = ((x - cx) / cx) * 10;
+    card.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+  });
+
+  card.addEventListener("mouseleave", () => {
+    card.style.transform = "";
+  });
+});
+
+const t = document.getElementsByClassName("tooltip");
+
+for (let i = 0; i < t.length; i++) {
+  const el = t[i];
+  const box = document.createElement("div");
+  box.className = "tooltipbox";
+  box.textContent = el.getAttribute("data-tooltip");
+  el.appendChild(box);
+
+  el.addEventListener("mouseenter", () => {
+    box.classList.add("show");
+  });
+
+  el.addEventListener("mouseleave", () => {
+    box.classList.remove("show");
+  });
+}
